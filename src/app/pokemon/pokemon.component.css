@@ -1,0 +1,71 @@
+body {
+  background-color: #F5C556;
+  min-height: 100vh;
+}
+
+#imagen_pokemon,
+#search-input {
+  width: 70%;
+  margin: 20px auto 60px auto;
+}
+
+.card-title-stats {
+  text-transform: initial;
+}
+
+.pokemon-type {
+  margin: auto 45px 5px 45px;
+  border-radius: 15px;
+  padding: 3px;
+  text-transform: capitalize;
+}
+
+.statsPokemon {
+  border: 0.5px solid black;
+  border-radius: 15px;
+  margin: 5px;
+  text-transform: uppercase;
+
+}
+
+.card {
+  width: max-content;
+  text-align: center;
+
+}
+
+/* Ajuste responsive para las cartas de los pokémons */
+@media (max-width: 2560px) {
+  .card {
+    flex-basis: calc(100% / 5 - 20px);
+    margin: 10px
+  }
+}
+
+@media (max-width: 1400px) {
+  .card {
+    flex-basis: calc(100% / 4 - 20px);
+    margin: 10px
+  }
+}
+
+@media (max-width: 1000px) {
+  .card {
+    flex-basis: calc(100% / 3 - 20px);
+    margin: 10px
+  }
+
+  .pokemon-type {
+    margin: auto 10px 5px 10px;
+    border-radius: 15px;
+    padding: 3px;
+    text-transform: capitalize;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    flex-basis: calc(100% / 2 - 20px);
+    margin: 10px
+  }
+}

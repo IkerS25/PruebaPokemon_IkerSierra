@@ -1,0 +1,43 @@
+<body>
+  <div class="container">
+
+    <div class="row">
+      <img id="imagen_pokemon" src="../../assets/Images/Logo.png" alt="">
+      <input [(ngModel)]="campoBusqueda" type="text" (input)="buscarPokemon()" class="form-control" id="search-input"
+        placeholder="Buscar un pokémon">
+    </div>
+    
+    <div *ngIf="listaPokemonActualizada.length == 0" class="d-flex flex-wrap justify-content-center">
+      <h3>No se ha encontrado ningún pokémon con el nombre específicado</h3>
+    </div>
+
+    <div *ngIf="listaPokemonActualizada.length > 0" class="d-flex flex-wrap justify-content-center">
+      <div class="card" *ngFor="let pokemon of listaPokemonActualizada">
+        <img *ngIf="pokemon.sprites.front_default != null" class="card-img-top" src={{pokemon.sprites.front_default}}
+          alt="Imagen Pokemon">
+        <img *ngIf="pokemon.sprites.front_default == null" class="card-img-top" src="../../assets/Images/Pokeball.jpg"
+          alt="Imagen Pokemon">
+
+        <div class="card-body">
+          <h5 style="text-transform: capitalize;">{{pokemon.name}}</h5>
+          <div class="pokemon-type" [ngStyle]="{'background-color': tiposPokemonColores[pokemon.types[0].type.name]}">
+            {{pokemon.types[0].type.name}}</div>
+          <div class="pokemon-type" *ngIf="pokemon.types.length == 2"
+            [ngStyle]="{'background-color': tiposPokemonColores[pokemon.types[1].type.name]}">
+            {{pokemon.types[1].type.name}}</div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title-stats">Altura: {{pokemon.height/10}} m</h5>
+          <h5 class="card-title-stats">Peso: {{pokemon.weight/10}} kg</h5>
+        </div>
+        <div class="card-body">
+          <h5>Estadísticas</h5>
+          <div class="statsPokemon" *ngFor="let stat of pokemon.stats" id="stat">
+            <span>{{stat.stat.name}} = {{stat.base_stat}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
