@@ -10,15 +10,15 @@ export class ApiService {
   private apiURL = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=1600";
 
 
-  constructor(private http:HttpClient) { 
+  constructor(private http: HttpClient) {
 
   }
 
-  public getInfo() : Observable<any>{
+  public getInfo(): Observable<any> {
     return this.http.get<any>(this.apiURL);
   }
 
-  public getStats(url: string) : Observable<any>{
+  public getStats(url: string): Observable<any> {
     return this.http.get<any>(url);
   }
 }

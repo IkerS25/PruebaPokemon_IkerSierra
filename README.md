@@ -4,6 +4,11 @@ Esta prueba la he realizado utilizando el editor Visual Studio Code, en vez de e
 Esta app utiliza la API de PokeApi y te muestra todos los pokémons disponibles en la API cada uno con su carta, todas estas cartas son un elemento card de Bootstrap y son responsive para todo tipo de dispositivos mediante el uso de Bootstrap y media queries en CSS. Cada carta de pokémon dispone de los elementos que se piden en la prueba como nombre, imagen, peso, altura tipo y estadísticas generales. Como hay algunos Pokémons que no disponen de imagen, he añadido una imagen genérica para que mantenga el mismo diseño.
 Utilizando las opciones que nos da Angular, he hecho el buscador con un input normal y ngModel para que cada vez que se actualice la variable bindeada que es el texto introducido por el usuario, se haga una nueva busqueda en toda la lista. Si en la busqueda no se obtiene ningún resultado, se mostrará un mensaje en pantalla.
 
+ACTUALIZACIÓN
+
+He añadido el uso de IndexedDB para guardar la API en el navegador, intente utilizar localStorage pero como tiene un limite de almacenamiento de 5MB, opté por investigar IndexedDB ya que no lo habia utilizado nunca y no sabia como funcionaba. Ahora hace una única petición a la PokeAPI y la guarda en la base de datos del navegador, la siguiente vez que se cargue cogerá los datos de ahi en vez de volver a hacer la petición.
+También he eliminado bootstrap y ahora solo utilizo CSS, he hecho el proyecto responsive con media queries como la última vez.
+
 Para ejecutar la aplicación, escribir el comando ng serve en la consola como en la siguiente información.
 
 

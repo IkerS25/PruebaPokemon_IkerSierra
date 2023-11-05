@@ -1,71 +1,105 @@
+/* Estilos generales para el body */
 body {
   background-color: #F5C556;
   min-height: 100vh;
+  margin: 0 !important;
+}
+
+/* Contiene la imagen y la barra de busqueda */
+.containerSuperior {
+  text-align: center;
+}
+
+/* Contenedor que contiene las cartas */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10%;
+}
+
+/* Estilo de las cartas de pokemon */
+.carta {
+  text-align: center;
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  flex-basis: calc(100% / 7 - 40px);
+}
+
+/* Textos como la altura y el peso */
+.statText {
+  font-size: larger;
 }
 
 #imagen_pokemon,
 #search-input {
-  width: 70%;
+  width: 55%;
   margin: 20px auto 60px auto;
+}
+
+/* Estilo de la barra de búsqueda */
+#search-input {
+  padding: 10px;
+  border-radius: 15px;
 }
 
 .card-title-stats {
   text-transform: initial;
 }
 
+/* Controla el formato de los tipos de los pokemons */
 .pokemon-type {
-  margin: auto 45px 5px 45px;
+  margin: auto 80px 5px 80px;
   border-radius: 15px;
   padding: 3px;
   text-transform: capitalize;
 }
 
+/* Estilo de cada una de las estadisticas de los pokemons */
 .statsPokemon {
   border: 0.5px solid black;
   border-radius: 15px;
-  margin: 5px;
+  padding: 5px;
   text-transform: uppercase;
-
-}
-
-.card {
-  width: max-content;
-  text-align: center;
 
 }
 
 /* Ajuste responsive para las cartas de los pokémons */
 @media (max-width: 2560px) {
-  .card {
-    flex-basis: calc(100% / 5 - 20px);
-    margin: 10px
-  }
-}
-
-@media (max-width: 1400px) {
-  .card {
-    flex-basis: calc(100% / 4 - 20px);
-    margin: 10px
-  }
-}
-
-@media (max-width: 1000px) {
-  .card {
-    flex-basis: calc(100% / 3 - 20px);
-    margin: 10px
+  .carta {
+    flex-basis: calc(100% / 6 - 40px);
   }
 
-  .pokemon-type {
-    margin: auto 10px 5px 10px;
-    border-radius: 15px;
-    padding: 3px;
-    text-transform: capitalize;
-  }
-}
+  @media (max-width: 1920px) {
+    .carta {
+      flex-basis: calc(100% / 5 - 40px);
+    }
 
-@media (max-width: 600px) {
-  .card {
-    flex-basis: calc(100% / 2 - 20px);
-    margin: 10px
+    @media (max-width: 1600px) {
+      .carta {
+        flex-basis: calc(100% / 4 - 40px);
+      }
+
+      @media (max-width: 1300px) {
+        .carta {
+          flex-basis: calc(100% / 3 - 40px);
+        }
+
+        @media (max-width: 1000px) {
+          .carta {
+            flex-basis: calc(100% / 2 - 40px);
+
+          }
+
+          @media (max-width: 700px) {
+            .carta {
+              flex-basis: calc(100% - 40px);
+
+            }
+          }
+        }
+      }
+    }
   }
 }

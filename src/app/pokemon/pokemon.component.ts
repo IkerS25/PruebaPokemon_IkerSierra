@@ -24,6 +24,10 @@ export class PokemonComponent {
   statsPokemons: any[] = []
   // El campo de búsqueda vinculado con el input. 
   campoBusqueda: string = "";
+  // Almacena la API en un JSON
+  listaPokemonString: any = [];
+  // Marca si existe la base de datos
+  existeBD: boolean = true;
   // Todos los tipos de pokemon con su color asignado
   tiposPokemonColores: any = {
     'fire': '#F2953B',
@@ -52,6 +56,11 @@ export class PokemonComponent {
   // Carga los pokemons al cargar la página.
   ngOnInit(): void {
     this.getPokemons();
+
+    if (localStorage.getItem("listaPokemon") == null) {
+      localStorage.setItem("listaPokemon", this.listaPokemonString)
+    }
+
   }
   // Carga las URLS de los pokemons de la API.
   getPokemons() {
@@ -65,13 +74,74 @@ export class PokemonComponent {
 
   // Carga la información de todos los pokemons en la lista.
   getStats() {
-    for (let i = 0; i < this.listaPokemons.length; i++) {
+    // Abre la conexión a la base de datos
+    let db: IDBDatabase;
+    let request = indexedDB.open("pokemonDB", 1);
+    request.onupgradeneeded = (event) => {
+      db = (event.target as IDBOpenDBRequest).result;
 
-      this.apiService.getStats(this.listaPokemons[i]).subscribe(data => {
-        this.statsPokemons.push(data);
-      })
+      // Comprueba que la base de datos Pokemons este creada
+      if (!db.objectStoreNames.contains('pokemons')) {
+        this.existeBD = false;
+        db.createObjectStore('pokemons', { keyPath: 'id' });
+
+        request.onsuccess = (event) => {
+          db = (event.target as IDBOpenDBRequest).result;
+
+          // Luego, añade los datos a la base de datos
+          for (let i = 0; i < this.listaPokemons.length; i++) {
+            this.apiService.getStats(this.listaPokemons[i]).subscribe(data => {
+              this.statsPokemons.push(data);
+
+              // Añade los datos a la base de datos
+              let transaction = db.transaction(['pokemons'], 'readwrite');
+              let store = transaction.objectStore('pokemons');
+              store.add(data);
+            })
+          }
+          this.listaPokemonActualizada = this.statsPokemons;
+
+        };
+      }
+    };
+    // Comprueba si es la primera vez que se ejecuta la petición a la API, en caso de ser la primera vez carga los datos de la API y no de la Base de datos, en caso de tener guardados
+    // los datos en la base de datos los carga de ahi.
+    if (this.existeBD) {
+      this.cargarDatos();
     }
-    this.listaPokemonActualizada = this.statsPokemons;
+
+  }
+
+  //Carga los datos en la lista para visualizarlos en pantalla.
+  cargarDatos() {
+    // Abre la conexión a la base de datos
+    let db: IDBDatabase;
+    let request = indexedDB.open("pokemonDB", 1);
+
+    request.onsuccess = (event) => {
+      db = (event.target as IDBOpenDBRequest).result;
+
+      // Se leen los datos
+      let transaction = db.transaction(['pokemons'], 'readonly');
+      let store = transaction.objectStore('pokemons');
+
+      // Creamos un cursor para recorrer los datos de la base de datos
+      let cursorRequest = store.openCursor();
+
+      cursorRequest.onsuccess = (event) => {
+        let cursor = (event.target as IDBRequest).result;
+        if (cursor) {
+          // Añadimos el valor del cursor a la lista statsPokemons, la base de datos tiene una estructura de datos que solo contiene id  y value
+          this.statsPokemons.push(cursor.value);
+
+          // Avanza al siguiente objeto en el cursor
+          cursor.continue();
+        } else {
+          // Cuando no haya más objetos que recorrer, asignamos los datos de la lista statsPokemon a la lista listaPokemonActualizada para visualizarlos.
+          this.listaPokemonActualizada = this.statsPokemons;
+        }
+      };
+    };
   }
 
   // Filtra por el campo de búsqueda la lista de pokemons.
